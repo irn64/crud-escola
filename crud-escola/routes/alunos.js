@@ -7,18 +7,20 @@ let alunos = [
 ];
 let nextId = 3;
 
-// GET - Listar todos
-router.get('/', (req, res) => res.json(alunos));
+// GET - Listar
+router.get('/', (req, res, next) => 
+    res.json(alunos)
+);
 
 // GET/:id - Buscar por ID
-router.get('/:id', (req, res) => {
+router.get('/:id', (req, res, next) => {
   const aluno = alunos.find(a => a.id === parseInt(req.params.id));
   if (!aluno) return res.status(404).json({ error: "Aluno não encontrado" });
   res.json(aluno);
 });
 
 // POST - Criar novo
-router.post('/', (req, res) => {
+router.post('/', (req, res, next) => {
   const { nome, email, cpf, telefone, dataNascimento } = req.body;
   if (!nome || !email || !cpf) return res.status(400).json({ error: "Nome, e-mail e CPF são obrigatórios" });
   if (alunos.find(a => a.cpf === cpf)) return res.status(400).json({ error: "CPF já cadastrado" });
@@ -29,7 +31,7 @@ router.post('/', (req, res) => {
 });
 
 // PUT/:id - Atualizar
-router.put('/:id', (req, res) => {
+router.put('/:id', (req, res, next) => {
   const aluno = alunos.find(a => a.id === parseInt(req.params.id));
   if (!aluno) return res.status(404).json({ error: "Aluno não encontrado" });
 
@@ -44,7 +46,7 @@ router.put('/:id', (req, res) => {
 });
 
 // DELETE/:id - Deletar
-router.delete('/:id', (req, res) => {
+router.delete('/:id', (req, res, next) => {
   const index = alunos.findIndex(a => a.id === parseInt(req.params.id));
   if (index === -1) return res.status(404).json({ error: "Aluno não encontrado" });
 
